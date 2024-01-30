@@ -1,0 +1,9 @@
+dev.js
+.env
+uploads
+/node_modules
+/build
+/uploads
+npm-debug.log*
+yarn-debug.kog*
+yarn-error.log*
