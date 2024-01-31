@@ -5,26 +5,25 @@ const JWT_SECRET = process.env.JWT_SECRET
 const JWT_ALGORITHN=process.env.JWT_ALGORITHN
 const JWT_SHORT_EXPIRESIN=process.env.JWT_SHORT_EXPIRESIN
 const JWT_LONG_EXPIRESIN=process.env.JWT_LONG_EXPIRESIN
-
 const JWT_AUTH = {
   matchPassword: async (userPassword, savedPassword) => {
     return await bcrypt.compare(userPassword, savedPassword);
   },
-  generateToken: (payLoad: string) => {
-    return jwt.sign(payLoad, JWT_SECRET, {
+  generateToken: (payLoad: string | Object) => {
+    return jwt.sign(payLoad, JWT_SECRET);
+    /* 
+    {
       algorithm: JWT_ALGORITHN,
       expiresIn: JWT_SHORT_EXPIRESIN
-    });
+    }
+    */
   },
   generateRefleshToken: () => {
-    return jwt.sign({}, JWT_SECRET, {
-      algorithm: JWT_ALGORITHN,
-      expiresIn: JWT_LONG_EXPIRESIN
-    });
+    return jwt.sign({}, JWT_SECRET);
   },
-  verifyToken: async (token) => {
+  verifyToken: async (token: string) => {
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded: any = jwt.verify(token, JWT_SECRET);
       return { isDecode: true, decoded };
     } catch (error) {
       if (error.message === "jwt expired") {
@@ -34,12 +33,12 @@ const JWT_AUTH = {
       }
     }
   },
-  verifyRefleshToken: async (token, savedToken) => {
+  verifyRefleshToken: async (token: string, savedToken: string) => {
     if (token !== savedToken) {
       return { isDecode: false, message: "invalid Token" };
     } else {
       try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET, {});
         return { isDecode: true, decoded };
       } catch (error) {
         if (error.message === "jwt expired") {
