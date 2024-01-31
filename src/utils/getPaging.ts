@@ -1,5 +1,5 @@
-import qs from "qs";
-import Contents from "../models/contents.js";
+import qs, { ParsedQs } from "qs";
+import ContentsModel from "@/apis/contents/contents.model";
 
 /**
  * 페이징 처리해주는 함수
@@ -8,7 +8,7 @@ import Contents from "../models/contents.js";
  * @param Model - mongodb Model
  * @returns Promise<number[]>
  */
-export async function getPaging(query: string, filter = {}, Model = Contents) {
+export async function getPaging(query: any, filter = {}, Model = ContentsModel) {
   console.log({ Model });
   const { page, size } = qs.parse(query);
   const currentPage = parseInt((page as string) || "1", 10); // 현재 페이지, default: 1
