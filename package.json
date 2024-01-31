@@ -1,11 +1,10 @@
 {
-  "type": "module",
   "name": "api",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "tsc & nodemon build/server.js",
-    "dev": "tsc-watch --onSuccess \"npx ts-node build/server.js\"",
+    "start": "npx tsc & nodemon build/server.js",
+    "dev": "npx tsc-watch --onSuccess \"npx ts-node build/server.js\"",
     "build": "tsc"
   },
   "dependencies": {
@@ -45,6 +44,7 @@
     "envalid": "^8.0.0",
     "module-alias": "^2.2.3",
     "ts-node": "^10.9.2",
+    "tsc-watch": "^6.0.4",
     "typescript": "^5.3.3"
   },
   "_moduleAliases": {
