@@ -1,7 +1,8 @@
-import User from "../models/user.js";
-import JWT_AUTH from "../utils/jwt_auth.js";
+import { NextFunction, Request, Response } from 'express';
+import {default as Users} from '@/apis/users/users.model';
+import JWT_AUTH from '@/utils/jwt_auth';
 
-let auth = async (req, res, next) => {
+let auth = async (req: Request, res: Response, next: NextFunction) => {
   let accessToken =
     // eslint-disable-next-line no-prototype-builtins
     req.headers.hasOwnProperty("authorization") &&
@@ -15,7 +16,7 @@ let auth = async (req, res, next) => {
   try {
     const isVerifyToken = await JWT_AUTH.verifyToken(accessToken);
     if (isVerifyToken.isDecode) {
-      const user = await User.findOne({ email: isVerifyToken.decoded.email });
+      const user = await Users.findOne({ email: isVerifyToken.decoded.email });
       const { password, token, ...userData } = user._doc;
       req.user = userData;
       next();
