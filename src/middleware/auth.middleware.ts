@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
-import {default as Users} from '@/apis/users/users.model';
-import JWT_AUTH from '@/utils/jwt_auth';
+import { NextFunction, Request, Response } from "express";
+import { default as Users } from "@/apis/users/users.model";
+import JWT_AUTH from "@/utils/jwt_auth";
 
 let auth = async (req: Request, res: Response, next: NextFunction) => {
   let accessToken =
-    // eslint-disable-next-line no-prototype-builtins
     req.headers.hasOwnProperty("authorization") &&
     req.headers.authorization.split("Bearer ")[1];
   if (!accessToken) {
@@ -26,7 +25,7 @@ let auth = async (req: Request, res: Response, next: NextFunction) => {
         .json({ isOk: false, msg: "토큰이 유효하지 않습니다." });
     }
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
